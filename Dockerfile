@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expor a porta do servidor de desenvolvimento - Expose the development server port
-EXPOSE 3002
+EXPOSE 8080
 
 # Iniciar o aplicativo em modo de desenvolvimento - Start the app in development mode
 CMD ["node", "app.js"]
