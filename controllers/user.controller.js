@@ -32,7 +32,7 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     const id = req.params.id;
     const tokenUserId = req.userId;
-    const {password, avatar, ...inputs} = req.body;
+    const {password, avatarURL, ...inputs} = req.body;
 
     if (id !== tokenUserId) {
         return res.status(403).json({message: "Não autorizado!"})
@@ -49,7 +49,7 @@ export const updateUser = async (req, res) => {
             data: {
                 ...inputs,
                 ...(updatedPassword && {password: updatedPassword}),
-                ...(avatar && {avatar: avatar}),
+                ...(avatarURL && {avatarURL: avatarURL}),
             }
         });
 
