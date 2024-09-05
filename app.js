@@ -15,7 +15,7 @@ app.use(cookieParser())
 
 app.use("/api/auth", authRoute);
 app.use("/api/usuarios", userRoute);
-app.use("/api/postagens", postRoute);
+app.use("/api/publicacoes", postRoute);
 app.use("/api/testes", testRoute);
 
 app.listen(8080, () => {

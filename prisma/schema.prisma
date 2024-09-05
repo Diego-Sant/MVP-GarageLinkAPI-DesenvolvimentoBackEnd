@@ -14,4 +14,116 @@ model User {
   password String
   avatarURL String?
   createdAt DateTime @default(now())
+  posts Post[]
+}
+
+model Post {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  postDetail PostDetail?
+  title String
+  address String
+  city String
+  images String[]
+  condition Condition
+  brand Brand
+  transmission Transmission
+  buyOrRent BuyOrRent
+  fuel Fuel
+  color Color
+  priceToBuy Int?
+  priceToRent Int?
+  latitude String
+  longitude String
+  createdAt DateTime @default(now())
+}
+
+model PostDetail {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  postId String @db.ObjectId @unique
+  post Post @relation(fields: [postId], references: [id])
+  description String
+  general1Title String?
+  general1Desc String?
+  general2Title String?
+  general2Desc String?
+  general3Title String?
+  general3Desc String?
+}
+
+enum Condition {
+  Novo
+  Usado
+}
+
+enum Transmission {
+  Manual
+  Automatico
+}
+
+enum BuyOrRent {
+  Alugar
+  Comprar
+}
+
+enum Fuel {
+  Diesel
+  Eletrecidade
+  Etanol
+  Flex
+  Gasolina
+  Gas
+}
+
+enum Color {
+  Amarelo
+  Azul
+  Bege
+  Bronze
+  Ciano
+  Cinza
+  Dourado
+  Laranja
+  Marrom
+  Prata
+  Preto
+  Purpura
+  Rosa
+  Roxo
+  Turquesa
+  Vermelho
+  Verde
+}
+
+enum Brand {
+  Audi
+  Bentley
+  BMW
+  BYD
+  Chevrolet
+  Citroen
+  Ferrari
+  Fiat
+  Ford
+  Honda
+  Hyundai
+  Jaguar
+  Jeep
+  Kia
+  Lamborghini
+  LandRover
+  Maserati
+  McLaren
+  MercedesBenz
+  Mitsubishi
+  Nissan
+  Peugeot
+  Porsche
+  Renault
+  RollsRoyce
+  Suzuki
+  Toyota
+  Volkswagen
+  Yamaha
 }
