@@ -63,8 +63,8 @@ enum Transmission {
 }
 
 enum BuyOrRent {
-  Alugar
   Comprar
+  Alugar
 }
 
 enum Fuel {

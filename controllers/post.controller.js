@@ -1,8 +1,37 @@
 import prisma from "../lib/prisma.js";
 
 export const getPosts = async (req, res) => {
+    const query = req.query;
+
+
+
     try {
-        const posts = await prisma.post.findMany()
+
+        const posts = await prisma.post.findMany({
+            where: {
+                city: {
+                    contains: query.cidade || undefined,
+                    mode: 'insensitive'
+                },
+                buyOrRent: query.disponibilidade || undefined,
+                brand: query.marca || undefined,
+                condition: query.condicao || undefined,
+                transmission: query.transmissao || undefined,
+                color: query.cor || undefined,
+                ...(query.disponibilidade === 'Comprar' && {
+                    priceToBuy: {
+                        gte: parseInt(query.minPrice) || 0,
+                        lte: parseInt(query.maxPrice) || 10000000
+                    }
+                }),
+                ...(query.disponibilidade === 'Alugar' && {
+                    priceToRent: {
+                        gte: parseInt(query.minPrice) || 0,
+                        lte: parseInt(query.maxPrice) || 10000000
+                    }
+                })
+            }
+        })
 
         res.status(200).json(posts);
 
@@ -48,7 +77,7 @@ export const addPost = async (req, res) => {
                 userId: tokenUserId,
                 postDetail: {
                     create: body.postDetail,
-                }
+                },
             }
         })
 
