@@ -83,3 +83,40 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({message: "Falha ao excluir usuário!"})
     }
 }
+
+export const savePost = async (req, res) => {
+    const postId = req.body.postId;
+    const tokenUserId = req.userId;
+
+    try {
+        const savedPost = await prisma.savedPost.findUnique({
+            where: {
+                userId_postId: {
+                    userId: tokenUserId,
+                    postId: postId
+                }
+            }
+        });
+
+        if (savedPost) {
+            await prisma.savedPost.delete({
+                where: {
+                    id: savedPost.id
+                }
+            });
+            res.status(200).json({message: "Carro removido dos favoritos com sucesso!"})
+        } else {
+            await prisma.savedPost.create({
+                data: {
+                    userId: tokenUserId,
+                    postId: postId,
+                }
+            });
+            res.status(200).json({message: "Carro adicionado aos favoritos com sucesso!"})
+        }   
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Falha ao excluir usuário!"})
+    }
+}

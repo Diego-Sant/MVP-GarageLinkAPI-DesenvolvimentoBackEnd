@@ -1,39 +1,56 @@
 import prisma from "../lib/prisma.js";
+import jwt from "jsonwebtoken";
 
 export const getPosts = async (req, res) => {
     const query = req.query;
-
-
 
     try {
 
         const posts = await prisma.post.findMany({
             where: {
-                city: {
-                    contains: query.cidade || undefined,
-                    mode: 'insensitive'
-                },
-                buyOrRent: query.disponibilidade || undefined,
-                brand: query.marca || undefined,
-                condition: query.condicao || undefined,
-                transmission: query.transmissao || undefined,
-                color: query.cor || undefined,
-                ...(query.disponibilidade === 'Comprar' && {
-                    priceToBuy: {
-                        gte: parseInt(query.minPrice) || 0,
-                        lte: parseInt(query.maxPrice) || 10000000
+                AND: [
+                    {
+                        OR: [
+                            {
+                                city: {
+                                    contains: query.cidade || undefined,
+                                    mode: 'insensitive'
+                                }
+                            },
+                            {
+                                noAccentCity: {
+                                    contains: query.cidade || undefined,
+                                    mode: 'insensitive'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        buyOrRent: query.disponibilidade || undefined,
+                        brand: query.marca || undefined,
+                        condition: query.condicao || undefined,
+                        transmission: query.transmissao || undefined,
+                        color: query.cor || undefined,
+                        ...(query.disponibilidade === 'Comprar' && {
+                            priceToBuy: {
+                                gte: parseInt(query.minPrice) || 0,
+                                lte: parseInt(query.maxPrice) || 10000000
+                            }
+                        }),
+                        ...(query.disponibilidade === 'Alugar' && {
+                            priceToRent: {
+                                gte: parseInt(query.minPrice) || 0,
+                                lte: parseInt(query.maxPrice) || 10000000
+                            }
+                        })
                     }
-                }),
-                ...(query.disponibilidade === 'Alugar' && {
-                    priceToRent: {
-                        gte: parseInt(query.minPrice) || 0,
-                        lte: parseInt(query.maxPrice) || 10000000
-                    }
-                })
+                ]
             }
-        })
+        });
 
-        res.status(200).json(posts);
+        setTimeout(() => {
+            res.status(200).json(posts);
+        }, 500)
 
     } catch (error) {
         console.log(error);
@@ -58,7 +75,26 @@ export const getPost = async (req, res) => {
             }
         });
 
-        res.status(200).json(post);
+        const token = req.cookies?.token;
+        if (token) {
+            jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
+                if (!err) {
+                    const saved = await prisma.savedPost.findUnique({
+                        where: {
+                            userId_postId: {
+                                postId: id,
+                                userId: payload.id,
+                            }
+                        }
+                    });
+                    return res.status(200).json({...post, isSaved: saved ? true : false});
+                } else {
+                    return res.status(200).json({...post, isSaved: false});
+                }
+            });
+        } else {
+            return res.status(200).json({...post, isSaved: false});
+        }
 
     } catch (error) {
         console.log(error);
