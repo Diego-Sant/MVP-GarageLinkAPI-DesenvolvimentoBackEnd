@@ -126,12 +126,55 @@ export const addPost = async (req, res) => {
 }
 
 export const updatePost = async (req, res) => {
+    const id = req.params.id;
+    const tokenUserId = req.userId;
+    const { postDetail, ...postData } = req.body;
+
     try {
-        res.status(200).json();
+        const existingPost = await prisma.post.findUnique({
+            where: { id: id }
+        });
+
+        if (!existingPost) {
+            return res.status(404).json({ message: "Postagem não encontrada!" });
+        }
+
+        if (existingPost.userId !== tokenUserId) {
+            return res.status(403).json({ message: "Não autorizado!" });
+        }
+
+        const updatedPost = await prisma.post.update({
+            where: { id: id },
+            data: {
+                title: postData.title,
+                city: postData.city,
+                noAccentCity: postData.noAccentCity,
+                address: postData.address,
+                condition: postData.condition,
+                brand: postData.brand,
+                transmission: postData.transmission,
+                buyOrRent: postData.buyOrRent,
+                fuel: postData.fuel,
+                color: postData.color,
+                priceToBuy: postData.priceToBuy,
+                priceToRent: postData.priceToRent,
+                latitude: postData.latitude,
+                longitude: postData.longitude,
+                images: postData.images,
+                postDetail: postDetail ? {
+                    update: postDetail
+                } : undefined
+                },
+                include: {
+                postDetail: true
+                }
+        });
+
+        res.status(200).json(updatedPost);
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({message: "Falha ao editar carro!"})
+        res.status(500).json({ message: "Falha ao editar postagem!" });
     }
 }
 
@@ -141,16 +184,22 @@ export const deletePost = async (req, res) => {
     
     try {
         const post = await prisma.post.findUnique({
-            where: {id: id},
+            where: { id: id },
+            include: { postDetail: true }
         });
 
         if (post.userId !== tokenUserId) {
             return res.status(403).json({message: "Não autorizado!"})
         }
 
-        await prisma.post.delete({
-            where: {id: id},
-        })
+        await prisma.$transaction([
+            prisma.postDetail.delete({
+                where: { postId: id }
+            }),
+            prisma.post.delete({
+                where: { id: id }
+            })
+        ]);
 
         res.status(200).json({message: "Publicação deletada!"});
 

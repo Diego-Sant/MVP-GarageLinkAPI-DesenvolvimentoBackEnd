@@ -47,7 +47,7 @@ model Post {
 model PostDetail {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   postId String @db.ObjectId @unique
-  post Post @relation(fields: [postId], references: [id])
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   description String
   general1Title String?
   general1Desc String?
@@ -62,7 +62,7 @@ model SavedPost {
   user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
   userId String @unique @db.ObjectId
-  postId String @unique @db.ObjectId
+  postId String @db.ObjectId
   createdAt DateTime @default(now())
 
   @@unique([userId, postId])
