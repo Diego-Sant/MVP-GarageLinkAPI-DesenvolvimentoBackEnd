@@ -33,14 +33,14 @@ export const getPosts = async (req, res) => {
                         color: query.cor || undefined,
                         ...(query.disponibilidade === 'Comprar' && {
                             priceToBuy: {
-                                gte: parseInt(query.minPrice) || 0,
-                                lte: parseInt(query.maxPrice) || 10000000
+                                gte: parseInt(query.precoMin) || 0,
+                                lte: parseInt(query.precoMax) || 10000000
                             }
                         }),
                         ...(query.disponibilidade === 'Alugar' && {
                             priceToRent: {
-                                gte: parseInt(query.minPrice) || 0,
-                                lte: parseInt(query.maxPrice) || 10000000
+                                gte: parseInt(query.precoMin) || 0,
+                                lte: parseInt(query.precoMax) || 10000000
                             }
                         })
                     }
