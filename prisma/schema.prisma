@@ -116,6 +116,7 @@ enum Color {
   Amarelo
   Azul
   Bege
+  Branco
   Bronze
   Ciano
   Cinza
