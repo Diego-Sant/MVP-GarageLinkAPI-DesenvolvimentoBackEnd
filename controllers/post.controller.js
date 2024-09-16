@@ -4,6 +4,35 @@ import jwt from "jsonwebtoken";
 export const getPosts = async (req, res) => {
     const query = req.query;
 
+    let orderBy = {};
+    if (query.ordem === 'preco-asc') {
+        if (query.disponibilidade === 'Alugar') {
+            orderBy = { priceToRent: 'asc' };
+        } else if (query.disponibilidade === 'Comprar') {
+            orderBy = { priceToBuy: 'asc' };
+        } else {
+            orderBy = [
+                { priceToBuy: 'asc' },
+                { priceToRent: 'asc' }
+            ];
+        }
+    } else if (query.ordem === 'preco-desc') {
+        if (query.disponibilidade === 'Alugar') {
+            orderBy = { priceToRent: 'desc' };
+        } else if (query.disponibilidade === 'Comprar') {
+            orderBy = { priceToBuy: 'desc' };
+        } else {
+            orderBy = [
+                { priceToBuy: 'desc' },
+                { priceToRent: 'desc' }
+            ];
+        }
+    } else if (query.ordem === 'mais-recentes') {
+        orderBy = { createdAt: 'desc' }; 
+    } else if (query.ordem === 'marca-asc') {
+        orderBy = { brand: 'asc' };
+    }
+
     try {
 
         const posts = await prisma.post.findMany({
@@ -45,7 +74,8 @@ export const getPosts = async (req, res) => {
                         })
                     }
                 ]
-            }
+            },
+            orderBy: orderBy
         });
 
         setTimeout(() => {
