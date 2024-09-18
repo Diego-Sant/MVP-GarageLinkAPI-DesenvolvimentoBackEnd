@@ -17,7 +17,6 @@ app.use(cookieParser())
 app.use("/api/auth", authRoute);
 app.use("/api/usuarios", userRoute);
 app.use("/api/publicacoes", postRoute);
-app.use("/api/testes", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/mensagens", messageRoute);
 
