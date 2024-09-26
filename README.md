@@ -62,7 +62,7 @@ docker rm (CONTAINER ID)
 Em seguida, usar os comandos de build e run padrões do Docker.
 
 ```
-docker build -t garagelinkapi . 
+docker build -t garagelinkapi .
 ```
 
 Após a instalação, será feita a inicialização do arquivo Docker.
