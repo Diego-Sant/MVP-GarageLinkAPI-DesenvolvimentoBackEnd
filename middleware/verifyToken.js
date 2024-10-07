@@ -15,6 +15,7 @@ export const verifyToken = (req, res, next) => {
             return res.status(403).json({message: "Token não é válido!"});
         }
         req.userId = payload.id;
+        console.log("Usuário autenticado:", req.userId);
         next();
     });
 }
