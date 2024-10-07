@@ -10,6 +10,8 @@ import messageRoute from "./routes/message.route.js"
 
 const app = express();
 
+const PORT = process.env.PORT || 8080;
+
 app.use(cors({origin: process.env.CLIENT_URL, credentials: true}));
 app.use(express.json());
 app.use(cookieParser())
@@ -20,6 +22,6 @@ app.use("/api/publicacoes", postRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/mensagens", messageRoute);
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
     console.log("Server está funcionando!")
 })
