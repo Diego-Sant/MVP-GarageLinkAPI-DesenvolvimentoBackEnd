@@ -23,4 +23,4 @@ ENV NODE_ENV=production
 EXPOSE 8080
 
 # Iniciar o aplicativo em modo de desenvolvimento - Start the app in development mode
-CMD ["node", "app.js"]
+CMD ["node", "index.js"]
