@@ -83,7 +83,6 @@ export const getPosts = async (req, res) => {
         }, 500)
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao buscar carros!"})
     }
 }
@@ -127,7 +126,6 @@ export const getPost = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao buscar carro!"})
     }
 }
@@ -150,7 +148,6 @@ export const addPost = async (req, res) => {
         res.status(200).json(newPost);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao adicionar carro!"})
     }
 }
@@ -203,7 +200,6 @@ export const updatePost = async (req, res) => {
         res.status(200).json(updatedPost);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: "Falha ao editar postagem!" });
     }
 }
@@ -234,7 +230,6 @@ export const deletePost = async (req, res) => {
         res.status(200).json({message: "Publicação deletada!"});
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao deletar carro!"})
     }
 }

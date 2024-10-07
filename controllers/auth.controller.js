@@ -17,12 +17,9 @@ export const register = async (req, res) => {
             }
         });
 
-        console.log(newUser);
-
         res.status(201).json({message: "Usuário criado com sucesso!"});
 
     } catch(error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao criar usuário!"})
     }
 }
@@ -55,13 +52,10 @@ export const login = async (req, res) => {
             maxAge: age,
             sameSite: 'None',
         });
-
-        console.log("Cookie de token configurado:", token);
         
         return res.status(200).json(userInfo);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao autenticar o usuário!"})
     }
 }

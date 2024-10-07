@@ -9,7 +9,6 @@ export const getUsers = async (req, res) => {
         res.status(200).json(users);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao acessar usuários!"})
     }
 }
@@ -24,7 +23,6 @@ export const getUser = async (req, res) => {
         res.status(200).json(user);
         
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao acessar usuário!"})
     }
 }
@@ -58,7 +56,6 @@ export const updateUser = async (req, res) => {
         res.status(200).json(rest);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao atualizar usuário!"})
     }
 }
@@ -79,7 +76,6 @@ export const deleteUser = async (req, res) => {
         res.status(200).json({message: "Usuário excluído com sucesso!"})
         
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao excluir usuário!"})
     }
 }
@@ -116,7 +112,6 @@ export const savePost = async (req, res) => {
         }   
         
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao adicionar post aos favoritos!"})
     }
 }
@@ -144,7 +139,6 @@ export const profilePosts = async (req, res) => {
         res.status(200).json({userPosts, savedPosts});
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao acessar posts no perfil!"})
     }
 }

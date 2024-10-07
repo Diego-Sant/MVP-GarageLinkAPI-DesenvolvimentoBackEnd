@@ -34,7 +34,6 @@ export const getChats = async (req, res) => {
         res.status(200).json(chats);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao acessar conversas!"})
     }
 };
@@ -81,7 +80,6 @@ export const getChat = async (req, res) => {
         res.status(200).json({ ...chat, lastMessageSenderId });
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao acessar conversa!"})
     }
 };
@@ -98,7 +96,6 @@ export const addChat = async (req, res) => {
         res.status(200).json(newChat);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao adicionar conversa!"})
     }
 };
@@ -126,7 +123,6 @@ export const readChat = async (req, res) => {
         res.status(200).json(chat);
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({message: "Falha ao ler conversa!"})
     }
 };
