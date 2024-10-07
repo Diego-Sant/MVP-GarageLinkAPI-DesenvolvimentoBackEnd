@@ -76,4 +76,5 @@ Desse jeito, o projeto será iniciado em `http://localhost:8080`. Caso entre no 
 
 Caso essa mensagem apareça: `Ports are not available: exposing port TCP 0.0.0.0:8080 -> 0.0.0.0:0: listen tcp 0.0.0.0:8080: bind: Only one usage of each socket address`, os arquivos para mudar o port do local host são: `Dockerfile` ao lado de EXPOSE, `app.js` em app.listen e no front-end em `apiRequest.js` no BaseURL dentro da pasta /src/lib/apiRequest.js.
 =======
+Desse jeito, o projeto será iniciado em `http://localhost:8080`. Caso entre no link e apareça essa mensagem `Cannot GET /`, significa que o server está funcionando perfeitamente.
 >>>>>>> Stashed changes
